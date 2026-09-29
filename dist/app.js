@@ -81,6 +81,11 @@ function displayTitle(record) {
   return record.title || record.en_title || `标本 ${record.id}`;
 }
 
+function previewUrl(thumb) {
+  const source = String(thumb || "").replace(/^https?:\/\//, "");
+  return `https://images.weserv.nl/?url=${encodeURIComponent(source)}&w=640&h=430&fit=cover&output=webp`;
+}
+
 function searchableText(record) {
   return [
     record.id,
@@ -182,15 +187,23 @@ function matchesFilter(record) {
 function cardMarkup(record) {
   const classification = record.classification || {};
   const title = displayTitle(record);
-  const thumb = record.thumb ? escapeHtml(record.thumb) : "";
+  const originalThumb = record.thumb || "";
+  const thumb = originalThumb ? escapeHtml(previewUrl(originalThumb)) : "";
   const reason = classification.reason || "依据公开名称与分类字段整理。";
   const image = thumb
-    ? `<img data-src="${thumb}" alt="${escapeHtml(title)} 缩略图" loading="lazy" />`
+    ? `<img data-src="${thumb}" data-original-src="${escapeHtml(originalThumb)}" alt="${escapeHtml(title)} 缩略图" decoding="async" />`
     : "";
   return `<article class="specimen-card">
     <div class="card-image">
-      <div class="image-fallback" aria-hidden="true"></div>
+      <div class="image-fallback" aria-hidden="true">
+        <span class="fallback-index">#${escapeHtml(record.id)}</span>
+        <span class="fallback-label">ANATOMY / PREVIEW</span>
+      </div>
       ${image}
+      <div class="card-image-topline" aria-hidden="true">
+        <span>EVDO / 27XXX</span>
+        <span class="preview-state">预览</span>
+      </div>
       <div class="card-image-badges">
         <span class="id-badge">#${escapeHtml(record.id)}</span>
         <span class="source-badge">${escapeHtml(sourceLabel())}</span>
@@ -213,8 +226,20 @@ function cardMarkup(record) {
 
 function loadCardImages() {
   elements.resultsGrid.querySelectorAll("img[data-src]").forEach((image) => {
-    image.addEventListener("load", () => image.classList.add("is-loaded"), { once: true });
-    image.addEventListener("error", () => image.remove(), { once: true });
+    image.addEventListener("load", () => {
+      image.classList.add("is-loaded");
+      image.closest(".card-image")?.classList.add("has-image");
+    });
+    image.addEventListener("error", () => {
+      const cardImage = image.closest(".card-image");
+      if (image.dataset.fallbackAttempted !== "true" && image.dataset.originalSrc) {
+        image.dataset.fallbackAttempted = "true";
+        image.src = image.dataset.originalSrc;
+        return;
+      }
+      cardImage?.classList.add("has-error");
+      image.remove();
+    });
     image.src = image.dataset.src;
   });
 }
