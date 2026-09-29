@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-09-29T01:51:37.508Z",
+  "reclassifiedAt": "2026-09-29T01:57:52.645Z",
+  "baseUrl": "https://www.evdo.vip",
+  "externalDetailEndpoint": "https://www.evdo.vip/api/v1/specimen/external/:id",
+  "scope": "27xxx-only",
+  "scan": {
+    "startId": 27000,
+    "endId": 27999,
+    "checked": 1000,
+    "validExternalRecords": 920,
+    "errors": 0
+  },
+  "counts": {
+    "人体真实结构 / 其他": 18,
+    "人体真实结构 / 口腔与颌面颈部": 7,
+    "人体真实结构 / 2024批": 617,
+    "病理人体标本": 86,
+    "动物标本": 2,
+    "人体真实结构 / 高仿真模型": 56,
+    "人体真实结构 / 藏医与仿真人体": 132,
+    "临床与人工材料相关": 2
+  },
+  "totalUniqueRecords": 920,
+  "humanNormalCount": 830,
+  "humanNormalFromIdScanCount": 830,
+  "classificationNote": "人体真实结构=非动物、非病理且公开字段指向人体解剖结构；2024/2025 批次、高仿真模型和藏医仿真人体另按来源/形态细分。病理人体标本另列，不混入正常结构。分类是基于公开元数据的规则初筛，待人工确认项保留供复核。",
+  "chunks": [
+    "records-01.json",
+    "records-02.json",
+    "records-03.json",
+    "records-04.json",
+    "records-05.json",
+    "records-06.json",
+    "records-07.json",
+    "records-08.json",
+    "records-09.json",
+    "records-10.json",
+    "records-11.json",
+    "records-12.json",
+    "records-13.json",
+    "records-14.json",
+    "records-15.json",
+    "records-16.json"
+  ]
+}
