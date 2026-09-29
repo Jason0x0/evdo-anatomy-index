@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#13201f" />
+    <meta
+      name="description"
+      content="EVDO 公开真实标本与人体结构模型索引，支持编号、分类和关键词检索。"
+    />
+    <title>EVDO 人体结构索引</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail">
+        <div class="rail-topline">
+          <div class="brand-mark" aria-hidden="true">EV</div>
+          <span>PUBLIC ATLAS / 01</span>
+        </div>
+        <div class="rail-title">
+          <p class="eyebrow">公开标本索引</p>
+          <h1>人体结构<br /><em>Atlas</em></h1>
+          <p class="rail-copy">
+            把 EVDO 外部真实标本页整理成一个可检索的目录，优先呈现人体结构模型。
+          </p>
+        </div>
+
+        <div class="rail-rule"></div>
+        <div class="rail-section-label">按分类浏览</div>
+        <nav id="category-rail" class="category-rail" aria-label="按分类浏览"></nav>
+
+        <div class="rail-footer">
+          <span class="status-dot"></span>
+          <span>资料快照 · 2026.09</span>
+        </div>
+      </aside>
+
+      <main class="main-pane">
+        <header class="topbar">
+          <div class="breadcrumb">
+            <span>EVDO / SPECIMEN</span>
+            <span class="slash">/</span>
+            <span id="topbar-count">加载 27xxx 目录中</span>
+          </div>
+          <a
+            class="source-link"
+            href="https://www.evdo.vip/web/external/specimen/27591"
+            target="_blank"
+            rel="noreferrer"
+          >
+            打开原站 <span aria-hidden="true">↗</span>
+          </a>
+        </header>
+
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="kicker"><span class="kicker-line"></span>ANATOMY / SPECIMEN DIRECTORY</div>
+            <h2>从编号进入<br /><span>真实结构。</span></h2>
+            <p>
+              只收录 <strong>27xxx</strong> 编号段的外部详情页。用分类、状态、格式或关键词，快速定位你要找的模型。
+            </p>
+          </div>
+          <div class="hero-note">
+            <span class="hero-note-number">27<span>xxx</span></span>
+            <span class="hero-note-label">只保留有效页<br />27000 — 27999</span>
+          </div>
+        </section>
+
+        <section class="stat-grid" aria-label="目录概览">
+          <article class="stat-card stat-card-primary">
+            <span class="stat-label">27xxx 有效页</span>
+            <strong id="stat-total">—</strong>
+            <span class="stat-sub">外部详情接口</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">人体正常结构</span>
+            <strong id="stat-human">—</strong>
+            <span class="stat-sub">默认优先显示</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">编号段扫描</span>
+            <strong id="stat-scan">—</strong>
+            <span class="stat-sub">1000 个编号已检查</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">病理标本</span>
+            <strong id="stat-pathology">—</strong>
+            <span class="stat-sub">保留在筛选目录中</span>
+          </article>
+        </section>
+
+        <section class="workspace" aria-labelledby="directory-heading">
+          <div class="workspace-head">
+            <div>
+              <div class="section-kicker">INDEX / 目录</div>
+              <h2 id="directory-heading">找到一块结构</h2>
+            </div>
+            <div class="workspace-meta">
+              <span class="meta-pulse"></span>
+              <span id="result-count">准备就绪</span>
+            </div>
+          </div>
+
+          <div class="controls">
+            <label class="search-field" for="search-input">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input
+                id="search-input"
+                type="search"
+                autocomplete="off"
+                placeholder="搜索名称、编号、部位或批次…"
+              />
+              <kbd>/</kbd>
+            </label>
+            <label class="select-field">
+              <span>状态</span>
+              <select id="status-select">
+                <option value="human-normal">人体正常结构</option>
+                <option value="all">全部状态</option>
+                <option value="pathology">病理人体标本</option>
+                <option value="animal">动物标本</option>
+                <option value="review">需复核</option>
+              </select>
+            </label>
+            <label class="select-field">
+              <span>格式</span>
+              <select id="format-select">
+                <option value="all">全部格式</option>
+                <option value="人体标本">人体标本</option>
+                <option value="塑化或铸型标本">塑化 / 铸型</option>
+                <option value="病理标本">病理标本</option>
+                <option value="高仿真/仿真人体模型">高仿真模型</option>
+                <option value="未注明">未注明</option>
+              </select>
+            </label>
+            <button id="reset-button" class="reset-button" type="button">重置</button>
+          </div>
+
+          <div class="active-filters" id="active-filters" aria-live="polite"></div>
+
+          <div id="results-grid" class="results-grid" aria-live="polite">
+            <div class="loading-state">
+              <span class="loader"></span>
+              <span>正在载入标本目录…</span>
+            </div>
+          </div>
+
+          <div id="empty-state" class="empty-state" hidden>
+            <div class="empty-icon">∅</div>
+            <h3>没有匹配记录</h3>
+            <p>试试换一个关键词，或清空筛选条件。</p>
+            <button id="empty-reset" class="button button-dark" type="button">清空筛选</button>
+          </div>
+
+          <div class="pagination-bar">
+            <span id="page-summary">—</span>
+            <div class="pagination-controls">
+              <button id="prev-page" class="page-button" type="button" aria-label="上一页">←</button>
+              <span id="page-number">1 / 1</span>
+              <button id="next-page" class="page-button" type="button" aria-label="下一页">→</button>
+            </div>
+          </div>
+        </section>
+
+        <footer class="site-footer">
+          <div>
+            <strong>EVDO 人体结构索引</strong>
+            <span>本页只保留 27000–27999 编号段；分类为基于标题与公开元数据的初筛，边界条目标为“需复核”。</span>
+          </div>
+          <div class="footer-links">
+            <a href="./data.json" download>下载 JSON</a>
+            <a href="https://www.evdo.vip/" target="_blank" rel="noreferrer">evdo.vip ↗</a>
+          </div>
+        </footer>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
