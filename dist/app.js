@@ -17,6 +17,10 @@ const STATUS_LABELS = {
   review: "需复核",
 };
 
+const STATUS_MATCHES = {
+  pathology: ["pathology", "human-pathology"],
+};
+
 const state = {
   records: [],
   filtered: [],
@@ -167,7 +171,8 @@ function renderCategoryRail() {
 function matchesFilter(record) {
   const classification = record.classification || {};
   const { search, status, format, category } = state.filters;
-  const statusMatch = status === "all" || classification.status === status;
+  const statusMatch = status === "all"
+    || (STATUS_MATCHES[status] || [status]).includes(classification.status);
   const formatMatch = format === "all" || classification.format === format;
   const categoryMatch = category === "all" || classification.category === category;
   const searchMatch = !search || searchableText(record).includes(search.toLowerCase());
@@ -355,7 +360,7 @@ function bindControls() {
 }
 
 function updateStats(data) {
-  const pathologyCount = data.records.filter((record) => record.classification?.status === "pathology").length;
+  const pathologyCount = data.records.filter((record) => STATUS_MATCHES.pathology.includes(record.classification?.status)).length;
   elements.statTotal.textContent = formatNumber(data.totalUniqueRecords || data.records.length);
   elements.statHuman.textContent = formatNumber(data.humanNormalCount);
   elements.statScan.textContent = formatNumber(data.scan?.validExternalRecords || data.records.length);
